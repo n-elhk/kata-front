@@ -157,7 +157,7 @@
 
         <input
           [formControl]="incomeCtrl"
-          type="text"
+          type="number"
           name="income-input"
           id="income-input"
         />
@@ -200,7 +200,7 @@
       <div
         *ngIf="configForm.controls.ownerCtrl.value === true; else tenantTemp"
       >
-        <ng-container *ngIf="effyHelp() > 0; else notEnougthTemp">
+        <ng-container *ngIf="effyHelpCount() > 0; else notEnougthTemp">
           <div class="result">
             <img
               src="assets/icons/win.svg"
@@ -260,7 +260,7 @@
 
           <div>
             Nous sommes au regret de vous annoncer que vous n'êtes pas élégible,
-            seul les propriétaire peuvent prétendre au programme.
+            seul les propriétaires peuvent prétendre au programme.
           </div>
         </div>
       </ng-template>

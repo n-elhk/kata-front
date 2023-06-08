@@ -20,19 +20,19 @@ import { CivilityPipe } from 'src/app/common/pipes/civility.pipe';
 import { StepperComponent } from 'src/app/components/stepper/stepper.component';
 import { ToggleComponent } from 'src/app/components/toggle/toggle.component';
 
-const DEFAULT_NBR_VALUE = 1;
+const DEFAULT_NBR_VALUE = Infinity;
+
 @Component({
   selector: 'kt-tools',
   standalone: true,
   imports: [
     CommonModule,
-    StepperComponent,
-    forwardRef(() => StepperComponent),
     CdkStepperModule,
     ReactiveFormsModule,
     CivilityPipe,
     ToggleComponent,
     RouterOutlet,
+    forwardRef(() => StepperComponent),
   ],
   templateUrl: './tools.component.html',
   styleUrls: ['./tools.component.scss'],
@@ -41,8 +41,6 @@ const DEFAULT_NBR_VALUE = 1;
 export class ToolsComponent {
   /** Injection of {@link FormBuilder}. */
   private builder = inject(FormBuilder);
-
-  public title = 'kata-front';
 
   /** Form contact for the step 1. */
   public formContact = this.builder.group({
@@ -101,31 +99,51 @@ export class ToolsComponent {
     }),
   });
 
-  public area = toSignal(
+  /** area signal for the calcule.  */
+  private area = toSignal(
     this.configForm.controls.areaCtrl.valueChanges.pipe(
       startWith(this.configForm.controls.areaCtrl.value)
     ),
     { initialValue: DEFAULT_NBR_VALUE }
   );
 
-  public income = toSignal(
+  /** income signal for the calcule.  */
+  private income = toSignal(
     this.configForm.controls.incomeCtrl.valueChanges.pipe(
       startWith(this.configForm.controls.incomeCtrl.value)
     ),
     { initialValue: DEFAULT_NBR_VALUE }
   );
 
-  public peopleCount = toSignal(
+  /** peopleCount signal for the calcule.  */
+  private peopleCount = toSignal(
     this.configForm.controls.peopleCountCtrl.valueChanges.pipe(
       startWith(this.configForm.controls.peopleCountCtrl.value)
     ),
     { initialValue: DEFAULT_NBR_VALUE }
   );
 
-  public projectCost = computed(() => this.area() * 80);
+  /** projectCost signal for the calcule.  */
+  private projectCost = computed(() => this.area() * 80);
 
-  public effyHelp = computed(
-    () =>
-      this.projectCost() * 0.75 - (this.income() / this.peopleCount()) * 0.15
+  /** effyHelpCount display the result in the template.  */
+  public effyHelpCount = computed(() =>
+    this.round(this.computeEffyCountHelp())
   );
+
+  private computeEffyCountHelp(): number {
+    return (
+      this.projectCost() * 0.75 - (this.income() / this.peopleCount()) * 0.15
+    );
+  }
+
+  /**
+   * 
+   * @param toRound toRound.
+   * @param pad number of digit after ','.
+   * @returns number.
+   */
+  public round(toRound: number, pad = 100): number {
+    return Math.ceil(toRound * pad) / pad;
+  }
 }
