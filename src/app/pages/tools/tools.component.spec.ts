@@ -18,7 +18,7 @@ describe('ToolsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should create', () => {
+  it('should round', () => {
     expect(component.round(10.567)).toBe(10.57);
     expect(component.round(10.563)).toBe(10.57);
     expect(component.round(10.543)).toBe(10.55);
