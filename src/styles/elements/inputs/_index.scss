@@ -1,0 +1,43 @@
+@import "./text";
+@import "./select";
+
+input,
+select {
+  position: relative;
+  min-width: 200px;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 5px 40px 5px 12px;
+  width: 100%;
+  border: 1px solid #e8eaed;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 1px 3px -2px #9098a9;
+  font-family: inherit;
+  font-size: 16px;
+  transition: all 150ms ease;
+
+  &:required:invalid {
+    color: #5a667f;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #07f;
+    box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.2);
+  }
+
+  &:hover + svg {
+    stroke: #07f;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 60%;
+  }
+
+  &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #A0A0A0;
+    opacity: 1; /* Firefox */
+  }
+}

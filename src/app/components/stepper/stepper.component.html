@@ -1,0 +1,25 @@
+<section class="stepper-container">
+  <button
+    class="step-button previous-button"
+    *ngIf="selectedIndex !== 0"
+    cdkStepperPrevious
+  ></button>
+  <button
+    class="step-button next-button"
+    *ngIf="selectedIndex < steps.length - 1"
+    cdkStepperNext
+  ></button>
+
+  <div class="heading-2 step-nbr">{{ selectedIndex + 1 }}.</div>
+
+  <div class="step-container">
+    <header>
+      <h2 class="heading-2">{{ selected?.label }}</h2>
+    </header>
+
+    <div
+      class="step-content"
+      [ngTemplateOutlet]="selected ? selected.content : null"
+    ></div>
+  </div>
+</section>

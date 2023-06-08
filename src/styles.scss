@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/cdk/overlay-prebuilt.css";
+
+@import "./styles/elements";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Poppins, Helvetica, sans-serif;
+  background-color: #fcfaf8;
+}
+
+.page-container {
+  position: relative;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.page-content {
+  padding-block: 3rem;
+}
+
+@media (min-width: 576px) {
+  .page-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .page-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page-container {
+    max-width: 1140px;
+  }
+}

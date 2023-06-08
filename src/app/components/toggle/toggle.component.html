@@ -1,0 +1,7 @@
+<div class="checkbox-container">
+    <div *ngIf="label" class="label"> {{ label }} </div>
+    <label class="switch">
+      <input [formControl]="control" type="checkbox" />
+      <span class="slider round"></span>
+    </label>
+</div>

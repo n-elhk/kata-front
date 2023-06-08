@@ -1,0 +1,269 @@
+<div class="page-content">
+  <kt-stepper [linear]="true">
+    <cdk-step [stepControl]="formContact" label="Formulaire de contact">
+      <div class="form-control">
+        <label for="civility-input">Civilité : </label>
+        <select
+          [formControl]="formContact.controls.civilityCtrl"
+          type="text"
+          name="civility-input"
+          id="civility-input"
+        >
+          <option value="MR">Homme</option>
+          <option value="MME">Femme</option>
+        </select>
+
+        <div
+          class="control-error"
+          *ngIf="
+            formContact.controls.civilityCtrl.dirty &&
+            formContact.controls.civilityCtrl.hasError('required')
+          "
+        >
+          Ce champs est nécessaire
+        </div>
+      </div>
+
+      <div
+        class="form-control"
+        *ngIf="formContact.controls.lastnameCtrl as lastnameCtrl"
+      >
+        <label for="lastname-input">Nom : </label>
+        <input
+          [formControl]="lastnameCtrl"
+          type="text"
+          name="lastname-input"
+          id="lastname-input"
+        />
+        <div
+          class="control-error"
+          *ngIf="lastnameCtrl.dirty && lastnameCtrl.hasError('required')"
+        >
+          Ce champs est nécessaire
+        </div>
+      </div>
+
+      <div
+        class="form-control"
+        *ngIf="formContact.controls.firstnameCtrl as firstnameCtrl"
+      >
+        <label for="firstname-input">Prénom : </label>
+
+        <input
+          [formControl]="firstnameCtrl"
+          type="text"
+          name="firstname-input"
+          id="firstname-input"
+        />
+
+        <div
+          class="control-error"
+          *ngIf="firstnameCtrl.dirty && firstnameCtrl.hasError('required')"
+        >
+          Ce champs est nécessaire
+        </div>
+      </div>
+
+      <div
+        class="form-control"
+        *ngIf="formContact.controls.emailCtrl as emailCtrl"
+      >
+        <label for="email-input">Email : </label>
+
+        <input
+          [formControl]="emailCtrl"
+          type="email"
+          name="email-input"
+          id="email-input"
+        />
+
+        <div class="control-error" *ngIf="emailCtrl.dirty">
+          <div *ngIf="emailCtrl.hasError('required')">
+            Le champ email est obligatoire
+          </div>
+
+          <div *ngIf="emailCtrl.hasError('pattern')">
+            Adresse mail invalid, exemple: john@doe.com
+          </div>
+        </div>
+
+        <div></div>
+      </div>
+
+      <div
+        class="form-control"
+        *ngIf="formContact.controls.phoneCtrl as phoneCtrl"
+      >
+        <label for="phone-input">N° de téléphone : </label>
+        <input
+          [formControl]="phoneCtrl"
+          type="text"
+          name="phone-input"
+          id="phone-input"
+        />
+
+        <div class="control-error" *ngIf="phoneCtrl.dirty">
+          <div *ngIf="phoneCtrl.hasError('required')">
+            Le champ email est obligatoire
+          </div>
+
+          <div *ngIf="phoneCtrl.hasError('pattern')">
+            N° de téléphone invalide.
+          </div>
+        </div>
+      </div>
+    </cdk-step>
+
+    <cdk-step [stepControl]="configForm" label="Formulaire d'estimation">
+      <div>
+        <kt-toggle
+          [control]="configForm.controls.ownerCtrl"
+          label="Êtes vous proriétaire ?"
+        />
+      </div>
+
+      <br />
+
+      <div
+        class="form-control"
+        *ngIf="configForm.controls.peopleCountCtrl as peopleCountCtrl"
+      >
+        <label for="people-input">Nombre de personnes dans le foyer : </label>
+        <input
+          [formControl]="configForm.controls.peopleCountCtrl"
+          type="number"
+          name="people-input"
+          id="people-input"
+        />
+
+        <div class="control-error" *ngIf="peopleCountCtrl.dirty">
+          <div *ngIf="peopleCountCtrl.hasError('required')">
+            Le nombre de personne est obligatoire
+          </div>
+
+          <div *ngIf="peopleCountCtrl.hasError('min')">
+            Le nombre de personne doit être supérieur à 0
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="form-control"
+        *ngIf="configForm.controls.incomeCtrl as incomeCtrl"
+      >
+        <label for="income-input"
+          >Les revenus du foyer (entre 10k et 100k) :
+        </label>
+
+        <input
+          [formControl]="incomeCtrl"
+          type="text"
+          name="income-input"
+          id="income-input"
+        />
+        <div class="control-error" *ngIf="incomeCtrl.dirty">
+          <div *ngIf="incomeCtrl.hasError('required')">
+            Le champ revenue est obligatoire
+          </div>
+
+          <div *ngIf="incomeCtrl.hasError('min') || incomeCtrl.hasError('max')">
+            Le revenue doit être entre 10K et 100K
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="form-control"
+        *ngIf="configForm.controls.areaCtrl as areaCtrl"
+      >
+        <label for="area-input">La surface du bien (m2) : </label>
+
+        <input
+          [formControl]="areaCtrl"
+          type="number"
+          name="area-input"
+          id="area-input"
+        />
+
+        <div class="control-error" *ngIf="areaCtrl.dirty">
+          <div *ngIf="areaCtrl.hasError('required')">
+            Le champ revenue est obligatoire
+          </div>
+          <div *ngIf="areaCtrl.hasError('min')">
+            La surface doit être supérieur à 0.
+          </div>
+        </div>
+      </div>
+    </cdk-step>
+
+    <cdk-step label="Récapitulatif">
+      <div
+        *ngIf="configForm.controls.ownerCtrl.value === true; else tenantTemp"
+      >
+        <ng-container *ngIf="effyHelp() > 0; else notEnougthTemp">
+          <div class="result">
+            <img
+              src="assets/icons/win.svg"
+              width="350"
+              height="350"
+              alt="win-help"
+            />
+
+            <div>
+              <h2>
+                Félicitation
+                {{ formContact.controls.civilityCtrl.value | civility }}
+                {{ formContact.controls.lastnameCtrl.value }}
+                {{ formContact.controls.firstnameCtrl.value }} !
+              </h2>
+            </div>
+
+            <div>
+              Nous avons le plaisir de vous annoncer que vous êtes éligible à
+              notre programme.
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #notEnougthTemp>
+          <div class="result">
+            <img
+              src="assets/icons/loose.svg"
+              width="350"
+              height="350"
+              alt="win-help"
+            />
+
+            <div>
+              <h2>Navrée</h2>
+            </div>
+
+            <div>
+              Nous sommes en regret de vous annoncer que vous n'êtes pas
+              élégible à notre programme.
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <ng-template #tenantTemp>
+        <div class="result">
+          <img
+            src="assets/icons/loose.svg"
+            width="350"
+            height="350"
+            alt="win-help"
+          />
+
+          <div>
+            <h2>Navrée</h2>
+          </div>
+
+          <div>
+            Nous sommes au regret de vous annoncer que vous n'êtes pas élégible,
+            seul les propriétaire peuvent prétendre au programme.
+          </div>
+        </div>
+      </ng-template>
+    </cdk-step>
+  </kt-stepper>
+</div>
